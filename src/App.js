@@ -1,23 +1,42 @@
-import logo from './logo.svg';
+import React from "react";
 import './App.css';
+import Search from './Components/Search';
+import List from './Components/List';
+import { Route, Routes } from 'react-router-dom';
 
-function App() {
+const App = () => {
+  /*
+  const [items, setItems] = useState([]);
+  const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    const getItems = async () => {
+      const res = await fetch(`https://trafi2.stat.fi/PXWeb/api/v1/fi/TraFi${path}?query=*&filter=*`);
+      const itemsFromServer = await res.json();
+      setItems(itemsFromServer);
+    }
+
+    getItems().then();
+  }, [path]);
+
+  const handleChange = event => {
+    setFilter(event.target.value);
+  };
+
+  const lowerCaseFilter = filter.toLowerCase();
+
+  const filteredData = items.filter(item => {
+    return Object.keys(item).some(key =>
+      typeof item[key] === "string" && item[key].toLowerCase().includes(lowerCaseFilter)
+    );
+  });
+*/
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path='/' exact element={<List />}/>
+        <Route path='/search/:id' element={<Search />}/>
+      </Routes>
     </div>
   );
 }
