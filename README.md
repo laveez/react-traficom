@@ -2,7 +2,7 @@
 
 ## Example pictures
 
-![frontpage.png](frontpage.png)
+![list.png](list.png)
 
 ![search.png](search.png)
 
