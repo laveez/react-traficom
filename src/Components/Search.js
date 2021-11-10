@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import Loader from './Loader';
+import Results from './Results';
 
-const Search = ({onSearch, onEmptyRes}) => {
+const Search = ({onSearch, onEmptyRes, loading, results}) => {
 
   const [data, setData] = useState({});
   const id = useParams().id;
@@ -67,7 +69,8 @@ const Search = ({onSearch, onEmptyRes}) => {
         }
         <input type='submit' value='Search' className='button button-primary' />
       </form>
-
+      {loading && <Loader/>}
+      {(results && !loading) && <Results results={results}/>}
     </div>
   );
 };

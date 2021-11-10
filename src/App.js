@@ -3,8 +3,6 @@ import './App.css';
 import Search from './Components/Search';
 import List from './Components/List';
 import { Route, Routes } from 'react-router-dom';
-import Results from './Components/Results';
-import Loader from './Components/Loader';
 
 const App = () => {
 
@@ -40,11 +38,11 @@ const App = () => {
           <Search
             onSearch={searchData}
             onEmptyRes={emptyRes}
+            loading={loading}
+            results={results}
           />
         }/>
       </Routes>
-      {loading && <Loader/>}
-      {(results && !loading) && <Results results={results}/>}
     </div>
   );
 }
