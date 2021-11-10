@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-const Search = () => {
+const Search = ({onSearch, onEmptyRes}) => {
 
   const [data, setData] = useState({});
   const id = useParams().id;
@@ -12,9 +12,33 @@ const Search = () => {
       const dataFromServer = await res.json();
       setData(dataFromServer);
     }
-
+    onEmptyRes();
     getData().then();
-  }, [id]);
+  }, [id, onEmptyRes]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    let data = {
+      'query': [],
+      'response': {
+        'format': 'json-stat2'
+      }
+    };
+    for (let i = 0; i < e.target.length - 1; i++) {
+      data.query.push({
+        'code': e.target[i].id,
+        'selection': {
+          'filter': 'item',
+          'values': [e.target[i].value]
+        }
+      });
+    }
+
+    let apiUrl = `https://trafi2.stat.fi/PXWeb/api/v1/fi/TraFi/${id}?query=*&filter=*`;
+
+    onSearch(data, apiUrl);
+  }
 
   return (
     <div>
@@ -25,7 +49,7 @@ const Search = () => {
       <h3>{data.title}</h3>
       }
 
-      <form>
+      <form onSubmit={onSubmit}>
         {data.variables && data.variables.map((item, index) => (
           <div key={'input' + index}>
             <label key={'label' + index} className='inline' htmlFor={item.code}>{item.code}</label>
@@ -41,6 +65,7 @@ const Search = () => {
 
         ))
         }
+        <input type='submit' value='Search' className='button button-primary' />
       </form>
 
     </div>
