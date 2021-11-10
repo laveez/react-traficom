@@ -1,5 +1,10 @@
 import './Loader.css'
 
+/**
+ * Loader from https://loading.io/css/
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const Loader = () => {
   return (
     <div>

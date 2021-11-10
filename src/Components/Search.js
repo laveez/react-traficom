@@ -3,21 +3,34 @@ import { Link, useParams } from 'react-router-dom';
 import Loader from './Loader';
 import Results from './Results';
 
-const Search = ({onSearch, onEmptyRes, loading, results}) => {
+const Search = () => {
 
   const [data, setData] = useState({});
   const id = useParams().id;
 
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  /**
+   * Fetch the parameters and lists of values for the search form
+   * Set result to an empty array
+   */
   useEffect(() => {
     const getData = async () => {
       const res = await fetch(`https://trafi2.stat.fi/PXWeb/api/v1/fi/TraFi/${id}?query=*&filter=*`);
       const dataFromServer = await res.json();
       setData(dataFromServer);
     }
-    onEmptyRes();
+    setResults([]);
     getData().then();
-  }, [id, onEmptyRes]);
+  }, [id]);
 
+  /**
+   * Format the query data correctly to the TraFi API specifications
+   * and trigger a search event with the data.
+   * Triggered by form submit.
+   * @param e event
+   */
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -27,6 +40,7 @@ const Search = ({onSearch, onEmptyRes, loading, results}) => {
         'format': 'json-stat2'
       }
     };
+
     for (let i = 0; i < e.target.length - 1; i++) {
       data.query.push({
         'code': e.target[i].id,
@@ -37,9 +51,30 @@ const Search = ({onSearch, onEmptyRes, loading, results}) => {
       });
     }
 
-    let apiUrl = `https://trafi2.stat.fi/PXWeb/api/v1/fi/TraFi/${id}?query=*&filter=*`;
+    searchData(data).then();
+  }
 
-    onSearch(data, apiUrl);
+  /**
+   * Do a post request to TraFi API to search with given data values
+   * Set results from the response
+   * @param data given data values
+   * @returns {Promise<void>}
+   */
+  const searchData = async (data) => {
+    setLoading(true);
+
+    const res = await fetch(
+      `https://trafi2.stat.fi/PXWeb/api/v1/fi/TraFi/${id}?query=*&filter=*`,
+      {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+      },
+    );
+    const response = await res.json();
+
+    setLoading(false);
+    setResults(response.value);
   }
 
   return (

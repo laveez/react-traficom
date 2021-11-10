@@ -6,6 +6,10 @@ const List = () => {
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState('');
 
+  /**
+   * Get available APIs from TraFI database
+   * Set items from response
+   */
   useEffect(() => {
     const getItems = async () => {
       const res = await fetch(`https://trafi2.stat.fi/PXWeb/api/v1/fi/TraFi?query=*&filter=*`);
@@ -16,12 +20,24 @@ const List = () => {
     getItems().then();
   }, []);
 
+  /**
+   * Search filter
+   * @param event change event of the search-textfield
+   */
   const handleChange = event => {
     setFilter(event.target.value);
   };
 
+  /**
+   * Convert all search-terms to lowercase
+   * @type {string} lower cased search terms
+   */
   const lowerCaseFilter = filter.toLowerCase();
 
+  /**
+   * Filter data with the given search terms
+   * @type {*[]}
+   */
   const filteredData = items.filter(item => {
     return Object.keys(item).some(key =>
       typeof item[key] === "string" && item[key].toLowerCase().includes(lowerCaseFilter)
