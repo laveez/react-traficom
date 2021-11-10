@@ -1,10 +1,11 @@
 # Traficom API react frontend
 
-## Example pictures
+## What is this?
 
-![list.png](list.png)
+This project is a simple react frontend for Traficom open APIs.
 
-![search.png](search.png)
+The Finnish Transport and Communications Agency Traficom is an authority in permit, licence, registration, approval, safety and security matters in Finland.
+
 
 ## Available Scripts
 
@@ -26,3 +27,12 @@ After this you can serve the built version by:
 ```serve -s build```
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+
+## Example pictures
+
+![list.png](list.png)
+
+![search.png](search.png)
+
+![about.png](about.png)
