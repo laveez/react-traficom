@@ -1,4 +1,5 @@
 import React from "react";
+import 'base-css-theme/base.css';
 import './App.css';
 import Search from './Components/Search';
 import List from './Components/List';
